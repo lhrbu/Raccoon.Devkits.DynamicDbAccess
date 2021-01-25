@@ -10,8 +10,14 @@ namespace Raccoon.Devkits.DynamicDbAccess
     [AttributeUsage(AttributeTargets.Method)]
     public class DynamicTransactionAttribute:Attribute
     {
+        public Type DynamicDbAccessServiceType { get; }
         public IsolationLevel IsolationLevel { get; }
-        public DynamicTransactionAttribute(IsolationLevel isolationLevel=IsolationLevel.Unspecified)
-        { IsolationLevel = IsolationLevel; }
+        public DynamicTransactionAttribute(
+            Type dynamicDbAccessServiceType,
+            IsolationLevel isolationLevel=IsolationLevel.Unspecified)
+        {
+            DynamicDbAccessServiceType = dynamicDbAccessServiceType;
+            IsolationLevel = IsolationLevel; 
+        }
     }
 }

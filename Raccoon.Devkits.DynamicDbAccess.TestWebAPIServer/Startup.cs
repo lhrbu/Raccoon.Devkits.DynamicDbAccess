@@ -32,7 +32,6 @@ namespace Raccoon.Devkits.DynamicDbAccess.TestWebAPIServer
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Raccoon.Devkits.DynamicDbAccess.TestWebAPIServer", Version = "v1" });
             });
-            services.AddSingleton<EntityTypeLoader>();
             services.AddDynamicAccessService<WebAPIDynamicDbAccessService>("Host=localhost;Username=postgres;Database=usage_records",
                 conn => new NpgsqlConnection(conn));
         }

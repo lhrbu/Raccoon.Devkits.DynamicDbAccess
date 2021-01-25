@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Raccoon.Devkits.DynamicDbAccess.ConnectionPool;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,9 +19,8 @@ namespace Raccoon.Devkits.DynamicDbAccess
             int maxConnections = 64)
             where TDynamicDbAccessService:DynamicDbAccessService
         {
-            services.AddDbConnectionsPool<TDynamicDbAccessService>(connectionString, connectionHandler, maxConnections);
-            services.TryAddScoped<EntityTypeLoader>();
             services.TryAddScoped<TDynamicDbAccessService>();
+            services.AddDbConnectionsPool<TDynamicDbAccessService>(connectionString, connectionHandler, maxConnections);
             return services;
         }
     }

@@ -39,7 +39,7 @@ namespace Raccoon.Devkits.DynamicDbAccess.TestWebAPIServer.Controllers
             .ToArray();
         }
         [HttpPost]
-        [DynamicTransaction]
+        [DynamicTransaction(typeof(WebAPIDynamicDbAccessService))]
         public async Task TestAsync()
         {
             var obj = CreateRandomJsonElement();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.ObjectPool;
+using Raccoon.Devkits.DynamicDbAccess.ConnectionPool;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +12,6 @@ namespace Raccoon.Devkits.DynamicDbAccess.UnitTest
     public class DefaultDbDynamicAccessService:DynamicDbAccessService
     {
         public DefaultDbDynamicAccessService(
-            ObjectPool<IDbConnection> connectionsPool,
-            EntityTypeLoader typeLoader) : base(connectionsPool, typeLoader) { }
+            DbConnectionPool<DefaultDbDynamicAccessService> connectionsPool) : base(connectionsPool) { }
     }
 }

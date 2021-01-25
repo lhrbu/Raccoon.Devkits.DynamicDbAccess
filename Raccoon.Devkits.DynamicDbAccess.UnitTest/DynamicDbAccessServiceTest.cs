@@ -54,7 +54,7 @@ namespace Raccoon.Devkits.DynamicDbAccess.UnitTest
         }
 
         public DefaultDbDynamicAccessService AccessService => _serviceProvider.GetRequiredService<DefaultDbDynamicAccessService>();
-        public Type TestType => _serviceProvider.GetRequiredService<EntityTypeLoader>().Get(_entityType);
+        public Type TestType => EntityTypeLoader.Get(_entityType);
 
         [Fact]
         public async Task GetAsyncTest()

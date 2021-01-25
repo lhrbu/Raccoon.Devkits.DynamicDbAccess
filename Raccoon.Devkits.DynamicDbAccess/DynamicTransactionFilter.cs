@@ -16,13 +16,13 @@ namespace Raccoon.Devkits.DynamicDbAccess
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if(context.ActionDescriptor.EndpointMetadata.FirstOrDefault(item => item is DynamicTransactionAttribute) is null)
-            {
-                await next();
-            }
+            DynamicTransactionAttribute? attribute = (context.ActionDescriptor.EndpointMetadata.FirstOrDefault(item => item is DynamicTransactionAttribute) as DynamicTransactionAttribute);
+            if (attribute is null){await next();}
             else
             {
-                DynamicDbAccessService accessService = context.HttpContext.RequestServices.GetRequiredService<DynamicDbAccessService>();
+                DynamicDbAccessService? accessService = context.HttpContext.RequestServices
+                    .GetRequiredService(attribute.DynamicDbAccessServiceType) as DynamicDbAccessService;
+                if(accessService is null) { throw new InvalidOperationException($"{accessService} is not resolved yet"); }
                 IDbTransaction transaction = accessService.BeginTransaction();
                 await next();
                 transaction.Commit();

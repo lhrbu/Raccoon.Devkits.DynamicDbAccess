@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Raccoon.Devkits.DynamicDbAccess
 {
-    public class EntityTypeLoader
+    public static class EntityTypeLoader
     {
-        public Type Get(EntityType entityType)
+        public static Type Get(EntityType entityType)
         {
             if(!_loadedTypesDict.ContainsKey(entityType.FullName))
             {
@@ -23,11 +23,11 @@ namespace Raccoon.Devkits.DynamicDbAccess
             else { return _loadedTypesDict[entityType.FullName]; }
         }
 
-        public Type? FindInCache(string fullName)
+        public static Type? SearchInCache(string fullName)
         {
             _loadedTypesDict.TryGetValue(fullName, out Type? type);
             return type;
         }
-        private readonly ConcurrentDictionary<string, Type> _loadedTypesDict = new();
+        private static readonly ConcurrentDictionary<string, Type> _loadedTypesDict = new();
     }
 }
