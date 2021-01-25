@@ -18,9 +18,9 @@ namespace Raccoon.Devkits.DynamicDbAccess.TestWebAPIServer.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly DynamicDbAccessService _accessService;
+        private readonly WebAPIDynamicDbAccessService _accessService;
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            DynamicDbAccessService accessService)
+            WebAPIDynamicDbAccessService accessService)
         {
             _logger = logger;
             _accessService = accessService;

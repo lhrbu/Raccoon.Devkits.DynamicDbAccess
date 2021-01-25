@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,8 @@ namespace Raccoon.Devkits.DynamicDbAccess.UnitTest
         public DynamicDbAccessServiceTest()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddSingleton<EntityTypeLoader>();
-            services.AddDbConnectionsPool("Host=localhost;Username=postgres;Database=usage_records");
-            services.AddTransient<DynamicDbAccessService>();
+            services.AddDynamicAccessService<DefaultDbDynamicAccessService>("Host=localhost;Username=postgres;Database=usage_records",
+                conn => new NpgsqlConnection(conn));
             _serviceProvider = services.BuildServiceProvider();
         }
 
@@ -53,7 +53,7 @@ namespace Raccoon.Devkits.DynamicDbAccess.UnitTest
             return JsonDocument.Parse(str).RootElement;
         }
 
-        public DynamicDbAccessService AccessService => _serviceProvider.GetRequiredService<DynamicDbAccessService>();
+        public DefaultDbDynamicAccessService AccessService => _serviceProvider.GetRequiredService<DefaultDbDynamicAccessService>();
         public Type TestType => _serviceProvider.GetRequiredService<EntityTypeLoader>().Get(_entityType);
 
         [Fact]

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,8 @@ namespace Raccoon.Devkits.DynamicDbAccess.TestWebAPIServer
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Raccoon.Devkits.DynamicDbAccess.TestWebAPIServer", Version = "v1" });
             });
             services.AddSingleton<EntityTypeLoader>();
-            services.AddDbConnectionsPool("Host=localhost;Username=postgres;Database=usage_records");
-            services.AddScoped<DynamicDbAccessService>();
+            services.AddDynamicAccessService<WebAPIDynamicDbAccessService>("Host=localhost;Username=postgres;Database=usage_records",
+                conn => new NpgsqlConnection(conn));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,16 +15,16 @@ namespace Raccoon.Devkits.DynamicDbAccess
     public class DynamicDbAccessService:IDisposable
     {
         private readonly EntityTypeLoader _typeLoader;
-        ObjectPool<IDbConnection> _connectionsPool;
+        private readonly ObjectPool<IDbConnection> _connectionsPool;
         private readonly IDbConnection _connection;
         public Guid Id { get; } = Guid.NewGuid();
         public DynamicDbAccessService(
             ObjectPool<IDbConnection> connectionsPool,
-            EntityTypeLoader? typeLoader=null)
+            EntityTypeLoader typeLoader)
         {
+            _typeLoader = typeLoader;
             _connectionsPool = connectionsPool;
             _connection = _connectionsPool.Get();
-            _typeLoader = typeLoader ?? new();
         }
 
         public IDbTransaction BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
